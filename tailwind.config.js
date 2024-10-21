@@ -10,6 +10,11 @@ export const theme = {
     'poppins-semibold': ['Poppins-SemiBold', 'sans-serif'],
     'poppins-bold': ['Poppins-Bold', 'sans-serif'],
   },
-  extend: {},
+
+  extend: {
+    colors: {
+      Primary: "#fe5e80",
+    },
+  },
 };
 export const plugins = [];

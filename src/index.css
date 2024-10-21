@@ -26,6 +26,15 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Hides scrollbar */
+}
+
+/* Hide scrollbar for Firefox */
+.hide-scrollbar {
+  scrollbar-width: none; /* Hides scrollbar in Firefox */
+}
+
 
 
 @font-face {
