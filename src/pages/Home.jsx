@@ -3,7 +3,7 @@ import Recipe from "../components/Recipe"
 
 function Home() {
   return (
-    <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 ">
+    <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 mt-28 ">
         {/* categories btns */}
         <div className="flex items-center gap-8 mt-6 overflow-x-scroll hide-scrollbar">
         <div className="flex gap-8">

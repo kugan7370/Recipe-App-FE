@@ -1,52 +1,85 @@
-import { Link } from "react-router-dom";
-import { IoLogOutOutline } from "react-icons/io5";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from '../assets/images/Cook_logo.png';
+import { logoutUser } from "../features/userSlicer";
+import { clearStorage } from "../services/helper";
+import { useDispatch, useSelector } from "react-redux";
+import { GoSignIn, GoSignOut } from "react-icons/go";
 const Navbar = () => {
+  const { isAuthenticated } = useSelector((state) => state.user);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async() => {
+    dispatch(logoutUser());
+   await clearStorage();
+
+    navigate('/signin');
+  };
+
   return (
-    <header className="bg-white dark:bg-gray-900 shadow-sm">
-    <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 py-2 ">
-      <div className="flex h-16 items-center justify-between">
-        <div className="md:flex md:items-center  md:gap-12">
-          <Link to={'/'}>
-            <img
-              className="h-5 w-auto"
-              src={logo}
-              alt="logo"
-            />
-           
-          </Link>
-        </div>
-  
-        <div>
-          <nav aria-label="Global">
-            <ul className="flex items-center gap-6 text-sm">
-            <Link to={'/'}>
-                <div
-                  className="font-poppins-medium text-lg uppercase transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
-                
+    <header className="fixed top-0 left-0 right-0 bg-white dark:bg-gray-900 shadow-sm">
+      <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 py-2">
+        <div className="flex h-16 items-center justify-between">
+          <div className="md:flex md:items-center md:gap-12">
+            <NavLink to="/">
+              <img
+                className="h-5 w-auto"
+                src={logo}
+                alt="logo"
+              />
+            </NavLink>
+          </div>
+
+          <div>
+            <nav aria-label="Global">
+              <ul className="flex items-center gap-6 text-sm">
+                <NavLink 
+                  to="/" 
+                  className={({ isActive }) =>
+                    isActive 
+                      ? "font-poppins-medium text-lg uppercase transition text-Primary dark:text-white" 
+                      : "font-poppins-medium text-lg uppercase transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
+                  }
                 >
                   Home
-                </div>
-              </Link>
-  
-              <Link to={'/favourite'}>
-                <div
-                  className="font-poppins-medium text-lg uppercase transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
-                  to="favourite"
+                </NavLink>
+
+                <NavLink 
+                  to="/favourite" 
+                  className={({ isActive }) =>
+                    isActive 
+                      ? "font-poppins-medium text-lg uppercase transition text-Primary dark:text-white" 
+                      : "font-poppins-medium text-lg uppercase transition hover:text-gray-500/75 dark:text-white dark:hover:text-white/75"
+                  }
                 >
                   Favourite
-                </div>
-              </Link>
-            </ul>
-          </nav>
-        </div>
-  
-        <div className="flex items-center gap-4">
-        <IoLogOutOutline size={30} />
+                </NavLink>
+              </ul>
+            </nav>
+          </div>
+
+         {/* <div className=""> */}
+          {isAuthenticated ? (
+            <NavLink className="flex items-center gap-4 cursor-pointer"
+            onClick={handleLogout}
+            >
+              {/* username */}
+              <h1 className="hidden md:block font-poppins-medium text-lg uppercase">Kugan</h1>
+              
+              <GoSignOut size={30} />
+            </NavLink>
+          ) : (
+            <NavLink to="/signin" className="flex items-center gap-4 cursor-pointer">
+               {/* sign in */}
+               <h1 className="hidden md:block font-poppins-medium text-lg uppercase">Sign In</h1>
+              <GoSignIn size={30} />
+            </NavLink>
+          )}
+
         </div>
       </div>
-    </div>
-  </header>
+    </header>
   );
 };
 

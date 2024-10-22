@@ -3,14 +3,18 @@ import './App.css'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import Favourite from './pages/Favourite'
+import SignIn from './pages/SignIn'
+import PrivateRoute from './router/PrivateRoute'
 
 function App() {
   return (
     <div>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/favourite" element={<Favourite />} />
+        <Route path="/" element={ <Home />} />
+        <Route path="/favourite" element={<PrivateRoute><Favourite /> </PrivateRoute>} />
+        <Route path="/signin" element={<SignIn />} />
+
       </Routes>
     </div>
   )
