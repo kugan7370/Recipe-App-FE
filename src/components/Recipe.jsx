@@ -2,16 +2,25 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {  addFavRecipe, removeFavRecipe } from "../features/recipeslicer";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Recipe({ recipe }) {
 
   const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const { favourite} = useSelector((state) => state.recipe); 
+  const { isAuthenticated } = useSelector((state) => state.user);
 
   const isFavorite = favourite.some((fav) => fav.idMeal === recipe.idMeal);
 
   const toggleFavorite = async() => {
+    if (!isAuthenticated) {
+      navigate("/signin", { state: { from: location } }); 
+      return;
+    }
+    
     if (recipe?.idMeal) {
       if (isFavorite) {
         dispatch(removeFavRecipe(recipe.idMeal));      

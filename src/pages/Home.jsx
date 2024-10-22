@@ -3,6 +3,8 @@ import { getAllCategories, getRecipesByCategory } from "../api/Recipe";
 import Category from "../components/Category";
 import Recipe from "../components/Recipe";
 import Loader from "../components/Loader";
+import { useDispatch } from "react-redux";
+import { fetchFavorite } from "../features/recipeslicer";
 
 function Home() {
   const [categories, setCategories] = useState([]);
@@ -11,6 +13,8 @@ function Home() {
 
   const [isLoadingCategories, setIsLoadingCategories] = useState(true); 
   const [isLoadingRecipes, setIsLoadingRecipes] = useState(true); 
+
+  const dispatch = useDispatch();
 
 
   useEffect(() => {
@@ -46,6 +50,10 @@ function Home() {
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
   };
+
+  useEffect(() => {
+    dispatch(fetchFavorite());
+  }, [dispatch]);
 
   return (
     <div className="mx-auto max-w-screen-xl px-4 sm:px-6 lg:px-8 mt-28">

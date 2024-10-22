@@ -51,6 +51,11 @@ export const addFavRecipe = createAsyncThunk(
   const recipeslicer = createSlice({
     name: "recipe",
     initialState,
+    reducers: {
+      clearRecipe: (state) => {
+        state.favourite = [];
+      },
+    },
     extraReducers: (builder) => {
       builder
         .addCase(fetchFavorite.pending, (state) => {
@@ -75,6 +80,8 @@ export const addFavRecipe = createAsyncThunk(
         });
     },
   });
+
+export const { clearRecipe } = recipeslicer.actions;
   
 
 

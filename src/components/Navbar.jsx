@@ -4,7 +4,7 @@ import { logoutUser } from "../features/userSlicer";
 import { clearStorage } from "../services/helper";
 import { useDispatch, useSelector } from "react-redux";
 import { GoSignIn, GoSignOut } from "react-icons/go";
-import { persistor } from "../app/store";
+import { clearRecipe } from "../features/recipeslicer";
 const Navbar = () => {
   const { isAuthenticated } = useSelector((state) => state.user);
 
@@ -13,8 +13,8 @@ const Navbar = () => {
 
   const handleLogout = async() => {
     dispatch(logoutUser());
+    dispatch(clearRecipe());
     clearStorage();
-    persistor.purge();
 
     navigate('/signin');
   };
