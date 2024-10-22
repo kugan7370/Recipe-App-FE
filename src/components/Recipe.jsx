@@ -1,26 +1,78 @@
-import { FaRegHeart } from "react-icons/fa";
-function Recipe() {
+import { FaHeart, FaRegHeart } from "react-icons/fa";
+import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
+import {  addFavRecipe, removeFavRecipe } from "../features/recipeslicer";
+
+function Recipe({ recipe }) {
+
+  const dispatch = useDispatch();
+
+  const { favourite} = useSelector((state) => state.recipe); 
+
+  const isFavorite = favourite.some((fav) => fav.idMeal === recipe.idMeal);
+
+  const toggleFavorite = async() => {
+    if (recipe?.idMeal) {
+      if (isFavorite) {
+        dispatch(removeFavRecipe(recipe.idMeal));      
+      } else {
+        dispatch(addFavRecipe(recipe.idMeal)); 
+      }
+    }
+    
+  };
+
+  const changeTextLength = (text) => {
+    return text.length > 25 ? text.substring(0, 25) + "..." : text;
+  };
+
+  
+  if (!recipe || !recipe.idMeal) {
+    return null;
+  }
+
+
 
   return (
-    <div className="w-full">
-        {/* image */}
-        <div className="w-full rounded-lg bg-gray-300">
-            <img src="https://images.immediate.co.uk/production/volatile/sites/30/2020/08/chorizo-mozarella-gnocchi-bake-cropped-9ab73a3.jpg?quality=90&resize=556,505" alt="img" className="w-full h-full object-cover rounded-lg"/>
+    <div className="w-[200px] h-[250px]">
+      <div className="w-full rounded-xl bg-gray-300 overflow-hidden">
+        <img
+          src={recipe.strMealThumb}
+          alt={recipe.strMeal}
+          className="w-full h-full object-cover"
+        />
+      </div>
+
+      <div className="mt-2 flex gap-4 items-center">
+        <h1 className="text-xs font-poppins">
+          {recipe.strCategory}
+        </h1>
+        <div onClick={toggleFavorite} className="cursor-pointer">
+          {isFavorite ? (
+            <FaHeart color="#fe5e80" size={16} />
+          ) : (
+            <FaRegHeart color="#fe5e80" size={16} />
+          )}
         </div>
+      </div>
 
-        {/* recipe category */}
-        <div className="mt-2 flex gap-4 items-center">
-            <h1 className="text-xs font-poppins">Pork</h1>
-            <FaRegHeart color='#fe5e80' size={16} />
-
-        </div>
-
-        {/* recipe name */}
-        <div className="mt-2">
-            <h1 className="text-sm font-poppins-medium">Pork with mushroom</h1>
-        </div> 
+      <div className="mt-2">
+        <h1 className="text-sm font-poppins-medium">
+          {changeTextLength(recipe.strMeal)}
+        </h1>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Recipe
+Recipe.propTypes = {
+  recipe: PropTypes.shape({
+    strMealThumb: PropTypes.string,
+    strMeal: PropTypes.string,
+    strCategory: PropTypes.string,
+    idMeal: PropTypes.string,
+  }).isRequired,
+ 
+};
+
+export default Recipe;

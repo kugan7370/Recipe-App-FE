@@ -14,7 +14,7 @@ const setUser = async (user) => {
   localStorage.setItem("user", JSON.stringify(user));
 };
 
-const clearStorage = async () => {
+const clearStorage =  () => {
   localStorage.clear();
 };
 
