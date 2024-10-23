@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { GoSignIn, GoSignOut } from "react-icons/go";
 import { clearRecipe } from "../features/recipeslicer";
 const Navbar = () => {
-  const { isAuthenticated } = useSelector((state) => state.user);
+  const { isAuthenticated,user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -67,7 +67,7 @@ const Navbar = () => {
             onClick={handleLogout}
             >
               {/* username */}
-              <h1 className="hidden md:block font-poppins-medium text-lg uppercase">Kugan</h1>
+              <h1 className="hidden md:block font-poppins-medium text-lg uppercase">{user.username}</h1>
               
               <GoSignOut size={30} />
             </NavLink>

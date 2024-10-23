@@ -6,6 +6,7 @@ import { fetchUser } from "../features/userSlicer";
 function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({ email: "", password: "" });
 
   const dispatch = useDispatch();
 
@@ -25,38 +26,63 @@ function SignIn() {
   
   const onSubmit = (e) => {
     e.preventDefault();
-    const user = {
-      email,
-      password,
-    };
-    dispatch(fetchUser(user));
+    if (validate()) {
+      const user = {
+        email,
+        password,
+      };
+      dispatch(fetchUser(user));
+    }
+  };
+
+  const validate = () => {
+    const newErrors = { email: "", password: "" };
+    let isValid = true;
+
+    if (!email) {
+      newErrors.email = "Email is required.";
+      isValid = false;
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Email address is invalid.";
+      isValid = false;
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required.";
+      isValid = false;
+    } else if (password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters long.";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
   };
 
   return (
-    <div className="login mt-32">
-      <div className="m-auto md:w-2/5 w-full h-full shadow-md p-10 rounded-md">
+    <div className="login mt-20">
+      <div className="m-auto md:w-2/5 w-full h-full shadow-md px-10 py-4 rounded-md">
       {/* logo */}
-      <div className="flex items-center justify-center md:gap-12 mb-6">
+      <div className="flex items-center justify-center md:gap-12 mb-2">
             <img
-              className="h-5 w-auto"
+              className="h-4 w-auto"
               src={logo}
               alt="logo"
             />
         
         </div>
-        <h1 className="text-2xl font-poppins-medium my-6">Login</h1>
+        <h1 className="text-xl font-poppins-medium my-4">Sign In</h1>
         <form
           onSubmit={onSubmit}
-          // className="flex flex-col gap-4" 
-        
         >
-          <p className="mb-4 font-poppins">Email</p>
+          <p className="mb-2 font-poppins">Email</p>
           <input
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className="outline-none font-poppins border-[1px] mb-2 w-full p-2"
             type="text"
           />
+           {errors.email && <p className="text-red-500 text-sm mb-2">{errors.email}</p>}
 
           <p className="mb-4 font-poppins ">Password</p>
           <input
@@ -65,6 +91,7 @@ function SignIn() {
             className="outline-none font-poppins border-[1px] mb-2 w-full p-2"
             type="password"
           />
+          {errors.password && <p className="text-red-500 text-sm mb-2">{errors.password}</p>}
 
           <button
             type="submit"

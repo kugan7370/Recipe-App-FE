@@ -3,12 +3,19 @@ import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {  addFavRecipe, removeFavRecipe } from "../features/recipeslicer";
 import { useLocation, useNavigate } from "react-router-dom";
+import Modal from "./Modal";
+import { useState } from "react";
 
 function Recipe({ recipe }) {
 
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+
+  const [isModalOpen, setModalOpen] = useState(false); 
+
+  const openModal = () => setModalOpen(true);
+  const closeModal = () => setModalOpen(false);
 
   const { favourite} = useSelector((state) => state.recipe); 
   const { isAuthenticated } = useSelector((state) => state.user);
@@ -40,11 +47,12 @@ function Recipe({ recipe }) {
     return null;
   }
 
-
-
   return (
+    <>
     <div className="w-[200px] h-[250px]">
-      <div className="w-full rounded-xl bg-gray-300 overflow-hidden">
+      <div className="w-full rounded-xl bg-gray-300 overflow-hidden"
+      onClick={openModal}
+      >
         <img
           src={recipe.strMealThumb}
           alt={recipe.strMeal}
@@ -71,6 +79,10 @@ function Recipe({ recipe }) {
         </h1>
       </div>
     </div>
+
+     {/* Modal */}
+ {recipe &&    <Modal isOpen={isModalOpen} onClose={closeModal} recipe={recipe} />}
+    </>
   );
 }
 

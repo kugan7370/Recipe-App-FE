@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Favourite from './pages/Favourite'
 import SignIn from './pages/SignIn'
 import PrivateRoute from './router/PrivateRoute'
+import SignUp from './pages/SignUp'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/" element={ <Home />} />
         <Route path="/favourite" element={<PrivateRoute><Favourite /> </PrivateRoute>} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
 
       </Routes>
     </div>

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Recipe from "../components/Recipe";
 import Loader from "../components/Loader";
 import { fetchFavorite } from "../features/recipeslicer"; 
+import emptyDataImg from '../assets/images/emptyData.png';
 
 function Favourite() {
   const dispatch = useDispatch();
@@ -21,15 +22,26 @@ function Favourite() {
       ) : (
         <>
           {/* Recipes */}
-          <div className="grid md:grid-cols-5 md:gap-12 grid-cols-2 gap-8 mt-10">
-            {favourite?.length > 0 ? (
-              favourite.map((recipe) => (
+          {favourite?.length > 0 ?     
+          ( <div className="grid md:grid-cols-5 md:gap-12 grid-cols-2 gap-8 mt-10">
+           
+              {favourite.map((recipe) => (
                 <Recipe key={recipe?.idMeal} recipe={recipe} />
-              ))
-            ) : (
-              <p>No favorite recipes yet!</p>
-            )}
-          </div>
+              ))}
+            
+            
+          </div>)
+          : (
+            <div className="flex justify-center items-center w-full h-96 rounded-md">
+             <img
+                className="h-full w-auto object-contain"
+                src={emptyDataImg}
+                alt="logo"
+              />
+            </div>
+          )
+          
+        }
         </>
       )}
     </div>
